@@ -1,7 +1,7 @@
 const question = document.getElementById("question");
 const choices = Array.from(document.getElementsByClassName("choice-text"));
 const progressText = document.getElementById("progressText");
-const scoreText = document.getElementById('Timer');
+// const Quiz_timer = document.getElementById('#Timer');
 
     
  
@@ -9,7 +9,7 @@ const scoreText = document.getElementById('Timer');
 const progressBarFull = document.getElementById("progressBarFull");
 let currentQuestion = {};
 let acceptingAnswers = false;
-let Timer =  100;
+// let Timer =  100;
 let questionCounter = 0;
 let availableQuesions = [];
 
@@ -61,12 +61,12 @@ let questions = [
 
     },
 ];
-const CORRECT_BONUS = 10;
+const Incorrect_Answer = -10;
 const MAX_QUESTIONS = 5;
 
 startGame = () => {
   questionCounter = 0;
-  score = 0;
+  Timer = 100;
   availableQuesions = [...questions];
   getNewQuestion();
 };
@@ -74,12 +74,12 @@ startGame = () => {
 getNewQuestion = () => {
   if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
     localStorage.setItem("mostRecentScore", score);
-    //go to the end page
+   
     return window.location.assign("/end.html");
   }
   questionCounter++;
   progressText.innerText = `Question ${questionCounter}/${MAX_QUESTIONS}`;
-  //Update the progress bar
+ 
   progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
 
   const questionIndex = Math.floor(Math.random() * availableQuesions.length);
@@ -102,6 +102,7 @@ choices.forEach(choice => {
     acceptingAnswers = false;
     const selectedChoice = e.target;
     const selectedAnswer = selectedChoice.dataset["number"];
+    
 
     const classToApply =
       selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
@@ -119,9 +120,24 @@ choices.forEach(choice => {
   });
 });
 
-incrementScore = num => {
-  score += num;
-  scoreText.innerText = score;
+// incrementScore = num => {
+//   score += num;
+//   Quiz_timer.innerText = Timer;
+// };
+
+const TimerSeconds = document.querySelector("#Timer");
+
+let totalSeconds = 100;
+const timer = setInterval(startTimer, 1000);
+
+function startTimer(){
+    if(totalSeconds < 0){
+    	TimerSeconds.innerHTML = "0";
+        clearInterval(timer);
+    }else{
+    	TimerSeconds.innerHTML = totalSeconds;
+    }
+    totalSeconds--;
 };
 
 startGame();
