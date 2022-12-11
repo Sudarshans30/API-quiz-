@@ -61,7 +61,7 @@ let questions = [
 
     },
 ];
-const Incorrect_Answer = -10;
+const CORRECT_BONUS = 10;
 const MAX_QUESTIONS = 5;
 
 startGame = () => {
@@ -107,9 +107,12 @@ choices.forEach(choice => {
     const classToApply =
       selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
 
-    if (classToApply === "correct") {
-      incrementScore(CORRECT_BONUS);
-    }
+      
+      if (classToApply === "incorrect") {
+        totalSeconds = totalSeconds - 10;
+      }  
+
+    
 
     selectedChoice.parentElement.classList.add(classToApply);
 
@@ -120,10 +123,7 @@ choices.forEach(choice => {
   });
 });
 
-// incrementScore = num => {
-//   score += num;
-//   Quiz_timer.innerText = Timer;
-// };
+
 
 const TimerSeconds = document.querySelector("#Timer");
 
