@@ -71,11 +71,19 @@ startGame = () => {
   getNewQuestion();
 };
 
+
 getNewQuestion = () => {
   if (availableQuesions.length === 0 || questionCounter >= MAX_QUESTIONS) {
-    localStorage.setItem("mostRecentScore", score);
-   
+    localStorage.setItem("mostRecentScore", TimerSeconds);
     return window.location.assign("/end.html");
+   
+    
+  }
+  stopTimer = ()=>{
+    if(MAX_QUESTIONS.length=== 5 || questionCounter>= MAX_QUESTIONS){
+      localStorage.setItem("mostRescentScore", TimerSeconds);
+      return window.location.assign("/highscore.html");
+    }
   }
   questionCounter++;
   progressText.innerText = `Question ${questionCounter}/${MAX_QUESTIONS}`;
@@ -110,16 +118,20 @@ choices.forEach(choice => {
       
       if (classToApply === "incorrect") {
         totalSeconds = totalSeconds - 10;
+        
+        
       }  
 
     
 
     selectedChoice.parentElement.classList.add(classToApply);
+    
 
     setTimeout(() => {
       selectedChoice.parentElement.classList.remove(classToApply);
       getNewQuestion();
     }, 1000);
+    
   });
 });
 
